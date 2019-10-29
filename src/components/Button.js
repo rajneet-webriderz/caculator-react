@@ -12,14 +12,6 @@ const Button = ({
 }) => {
   let { state, dispatch } = useContext(ContextAmount);
 
-  const handleClick = () => {
-    if (action) {
-      handleAction();
-    } else if (value) {
-      handleValue();
-    }
-  };
-
   const handleValue = () => {
     let amount = state.amount;
 
@@ -63,6 +55,13 @@ const Button = ({
 
       default:
         break;
+    }
+  };
+  const handleClick = () => {
+    if (action) {
+      handleAction();
+    } else if (value) {
+      handleValue();
     }
   };
 

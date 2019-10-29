@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
 import Button from "./components/Button";
-import { CLEAR_SINGLE, CLEAR_ALL, RESULT } from "./assets/constant";
 import { isValidInput } from "./assets/helper";
 import { ContextAmount } from "./context";
-
+import buttons from "./assets/buttons";
 let singleKeys = ["-", "+", "*", "/", ".", ")", "(", "*", "^", "%"];
 const App = () => {
   let { state, dispatch } = useContext(ContextAmount);
@@ -62,26 +61,18 @@ const App = () => {
           <span>{state.prevExpression}</span>
         </div>
       </div>
+
       <div className="button-panel">
-        <Button text="+" extraClass="action" value="+" single={true} />
-        <Button text="-" extraClass="action" value="-" single={true} />
-        <Button text="*" extraClass="action" value="*" single={true} />
-        <Button text="/" extraClass="action" value="/" single={true} />
-        <Button text="7" value="7" />
-        <Button text="8" value="8" />
-        <Button text="9" value="9" />
-        <Button text="C" extraClass="action2" action={CLEAR_SINGLE} />
-        <Button text="4" value="4" />
-        <Button text="5" value="5" />
-        <Button text="6" value="6" />
-        <Button text="AC" extraClass="action2" action={CLEAR_ALL} />
-        <Button text="1" value="1" />
-        <Button text="2" value="2" />
-        <Button text="3" value="3" />
-        <Button text="%" extraClass="action2" value="%" single={true} />
-        <Button text="0" value="0" />
-        <Button text="." extraClass="action2" value="." single={true} />
-        <Button text="=" extraClass="wide action" action={RESULT} />
+        {buttons.map((item, index) => (
+          <Button
+            key={index}
+            text={item.text}
+            extraClass={item.class}
+            value={item.value}
+            single={item.single}
+            action={item.action}
+          />
+        ))}
       </div>
     </div>
   );
