@@ -20,12 +20,21 @@ const Button = ({
         .toString()
         .split("")
         .pop();
-
-      if (lastDigit == value || !isNumeric(lastDigit)) return false;
+      let last2ndDigit = amount.toString().charAt(amount.length - 2);
+      if (!isNumeric(last2ndDigit)) {
+        return false;
+      }
+      if (lastDigit == value) {
+        return false;
+      }
+      if (!isNumeric(lastDigit) && value != "-") {
+        amount = amount.toString().slice(0, -1);
+      }
+      // if (lastDigit == value || !isNumeric(lastDigit)) return false;
     }
 
     if (value) {
-      amount = state.amount.toString().concat(value);
+      amount = amount.toString().concat(value);
       dispatch({ type: "setAmount", amount: amount });
     }
   };
@@ -66,7 +75,10 @@ const Button = ({
   };
 
   return (
-    <div className={"button-action " + extraClass} onClick={handleClick}>
+    <div
+      className={`button-action ${extraClass} key-${text}`}
+      onClick={handleClick}
+    >
       <button>{text}</button>
     </div>
   );

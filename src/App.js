@@ -12,25 +12,37 @@ const App = () => {
       dispatch({ type: "setAmount", amount: value });
     }
   };
+
   const handleOnchange = e => {
     let value = e.target.value;
     let lastDigitprev = state.amount
       .toString()
       .split("")
       .pop();
+
     let lastDigitnew = value
       .toString()
       .split("")
       .pop();
 
-    if (singleKeys.includes(lastDigitnew) && lastDigitnew == lastDigitprev) {
-      return false;
-    }
     if (
-      singleKeys.includes(lastDigitprev) &&
-      singleKeys.includes(lastDigitnew)
+      singleKeys.includes(lastDigitnew) &&
+      singleKeys.includes(lastDigitprev)
     ) {
-      return false;
+      let last2ndDigit = state.amount
+        .toString()
+        .charAt(state.amount.length - 2);
+
+      if (singleKeys.includes(last2ndDigit)) {
+        return false;
+      }
+      if (lastDigitnew == lastDigitprev) {
+        return false;
+      }
+
+      if (lastDigitnew != "-") {
+        value = value.toString().slice(0, -2) + lastDigitnew;
+      }
     }
 
     checkAndSetAmount(value);
@@ -44,11 +56,20 @@ const App = () => {
         expression: value
       });
     }
+    if (e.keyCode == 8 || e.keyCode == 46) {
+      e.preventDefault();
+      dispatch({
+        type: "clearSingle"
+      });
+    }
   };
 
   return (
     <div className="app">
       <div className="display">
+        <div className="previous-exp">
+          <span>{state.prevExpression}</span>
+        </div>
         <textarea
           value={state.amount}
           onChange={handleOnchange}
@@ -56,10 +77,6 @@ const App = () => {
           className={state.hasError ? "display-text error" : "display-text"}
           onKeyDown={handleKeyPress}
         ></textarea>
-
-        <div className="previous-exp">
-          <span>{state.prevExpression}</span>
-        </div>
       </div>
 
       <div className="button-panel">

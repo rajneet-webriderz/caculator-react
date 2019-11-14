@@ -15,13 +15,18 @@ let reducer = (state, action) => {
       return initialState;
 
     case "setAmount":
-      let value = action.amount
-        ? action.amount.toString().replace(/^0+/, "")
-        : 0;
+      let action_amount = action.amount;
+      // if (action_amount.length == 2) {
+      // } else {
+      //   action_amount = action_amount.toString().replace(/^0+/, "");
+      // }
+
+      let value = action_amount || 0;
       return { ...state, amount: value };
 
     case "clearSingle":
       let amount = state.amount.toString().slice(0, -1);
+      amount = amount || 0;
       return { ...state, amount: amount };
 
     case "setResult":
